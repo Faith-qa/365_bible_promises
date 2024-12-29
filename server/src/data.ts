@@ -13,7 +13,6 @@ interface ExtractedData {
 function extractDataFromText(text: string): ExtractedData[] {
     const results: ExtractedData[] = [];
     const lines = text.split('\n');
-    console.log(lines)
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
@@ -23,7 +22,6 @@ function extractDataFromText(text: string): ExtractedData[] {
         const dateMatch = line.match(/^([A-Za-z]+ \d+) - PROMISE #\d+/);
         if (dateMatch) {
             date = dateMatch[1];
-            console.log(`Matched date: ${date}`);
 
         }
 
@@ -31,7 +29,6 @@ function extractDataFromText(text: string): ExtractedData[] {
         // If we have a date, try to extract the verse which is the third line after the date
         if (date && i + 4 < lines.length) {
             const verseLine = lines[i + 4].trim();
-            console.log("hello", verseLine)
 // Verse is always 3 lines after the date line
 
 
@@ -45,7 +42,6 @@ function extractDataFromText(text: string): ExtractedData[] {
             }
         }
     }
-    console.log(`Matched date: ${results}`);
 
     return results;
 }
@@ -53,7 +49,6 @@ function extractDataFromText(text: string): ExtractedData[] {
 // Function to save data as a JSON file
 function saveDataAsJSON(data: ExtractedData[], outputFilePath: string): void {
     fs.writeFileSync(outputFilePath, JSON.stringify(data, null, 2), 'utf-8');
-    console.log(`Data saved to ${outputFilePath}`);
 }
 
 // Load and process the PDF file
@@ -62,7 +57,6 @@ async function processPDF(filePath: string, outputFilePath: string): Promise<voi
     const pdfData = await pdf(dataBuffer);
 
     const extractedData =  extractDataFromText(pdfData.text);
-    console.log(`Matched date: ${extractedData}`);
 
     saveDataAsJSON(extractedData, outputFilePath);
 }
